@@ -42,67 +42,50 @@ void selectionSort(vector <T>& arr, int size) {
 
 //MergeSort from Project 2
 template <typename T>
-void mergeSortedLists(vector<T>& a, vector<T>& tmp, int left, int middle, int right) {
-    int i=left;
-    int j=middle+1;
-    int k=left;
+void mergeSortedLists(vector<T>& a, vector<T>& tmp, int leftPos, int rightPos, int rightEnd) {
+    int leftEnd = rightPos - 1;
+    int tempPos = leftPos;
+    int numElements = rightEnd - leftPos + 1;
 
-    while(i<=middle&&j<=right){
-
-        if(a.at(i)<=a.at(j)){
-            tmp.at(k)=a.at(i);
-            i++;
-            k++;
-        }else{
-            tmp.at(k)=a.at(j);
-            j++;
-            k++;
+    while (leftPos <= leftEnd && rightPos <= rightEnd) {
+        if (a[leftPos] <= a[rightPos]) {
+            tmp[tempPos++] = a[leftPos++];
+        } else {
+            tmp[tempPos++] = a[rightPos++];
         }
 
     }
-    //adds end of vector if remaining values are in right half
 
-    while(j<=right){
-        tmp.at(k)=a.at(j);
-        j++;
-        k++;
+    while (leftPos <= leftEnd) {
+        tmp[tempPos++] = a[leftPos++];
+    }
+    while (rightPos <= rightEnd) {
+        tmp[tempPos++] = a[rightPos++];
     }
 
-
-    //adds end of vector if remaining values are in left half
-
-    while(i<=middle){
-        tmp.at(k)=a.at(i);
-        i++;
-        k++;
+    for (int i = 0; i < numElements; i++, --rightEnd) {
+        a[rightEnd] = tmp[rightEnd];
     }
-    for(int l=left;l<=right;l++){
-        a.at(l)=tmp.at(l);
-    }
-
-
-
 }
-template <typename T>
+
+template<typename T>
 void mergeSort(vector<T>& a, vector<T>& tmp, int left, int right) {
-
-    //base case
-    int n = (right +left)/2;
-    if (left==right) {
-        return;
-    } else if (left < right) {
-        // recursive step
-        mergeSort(a, tmp, left, n );
-        mergeSort(a, tmp, n  + 1, right);
-
-        //sorts list
-        mergeSortedLists(a, tmp, left, n, right);
-
+    if (left < right) {
+        int center = ( left + right ) / 2;
+        mergeSort(a, tmp, left, center);
+        mergeSort(a, tmp, center + 1, right);
+        mergeSortedLists(a, tmp, left, center + 1, right);
     }
-
-
-
 }
+
+// Swap function
+void swap(int *a, int *b) {
+    int temp;
+    temp=*a;
+    *b=*a;
+    *a=temp;
+}
+
 
 
 
@@ -186,7 +169,7 @@ int main() {
         return 1;//indicates error
     }
 
-    int n=14000;
+    int n=20;
         //creates Vector
         vector<Data> dataV(n);
 
@@ -248,21 +231,21 @@ int main() {
 
         //SelectionSort
         clock_t start_SelectionSortData = clock();
-        selectionSort(dataV_S, dataV_S.size());
+        selectionSort<Data>(dataV_S, dataV_S.size());
         clock_t end_SelectionSortData = clock();
 
         clock_t start_SelectionSortInt = clock();
-        selectionSort(intV_S, intV_S.size());
+        selectionSort<int>(intV_S, intV_S.size());
         clock_t end_SelectionSortInt = clock();
 
         //QuickSort
 
         clock_t start_quickSortData = clock();
-        Quicksort(dataV_Q, 0, dataV_Q.size());
+        Quicksort<Data>(dataV_Q, 0, dataV_Q.size());
         clock_t end_quickSortData = clock();
 
         clock_t start_quickSortInt = clock();
-        Quicksort(intV_Q, 0, intV_Q.size());
+        Quicksort<int>(intV_Q, 0, intV_Q.size());
         clock_t end_quickSortInt = clock();
 
         //MergeSort
@@ -270,11 +253,11 @@ int main() {
         vector<int> IntTemp(intV_M.size());
 
         clock_t start_mergeSortData = clock();
-        mergeSort(dataV_M,DataTemp,  0, dataV_M.size()-1);
+        mergeSort<Data>(dataV_M,DataTemp,  0, dataV_M.size()-1);
         clock_t end_mergeSortData = clock();
 
         clock_t start_mergeSortInt = clock();
-        mergeSort(intV_M, IntTemp ,0, intV_M.size()-1);
+        mergeSort<int>(intV_M, IntTemp ,0, intV_M.size()-1);
         clock_t end_mergeSortInt = clock();
 
 
@@ -307,11 +290,11 @@ int main() {
 
         //SelectionSort
         clock_t start_SelectionSortData2 = clock();
-        selectionSort(dataV_S, dataV_S.size());
+        selectionSort<Data>(dataV_S, dataV_S.size());
         clock_t end_SelectionSortData2 = clock();
 
         clock_t start_SelectionSortInt2 = clock();
-        selectionSort(intV_S, intV_S.size());
+        selectionSort<int>(intV_S, intV_S.size());
         clock_t end_SelectionSortInt2 = clock();
 
 
@@ -319,11 +302,11 @@ int main() {
         //QuickSort
 
         clock_t start_quickSortData2 = clock();
-        Quicksort(dataV_Q, 0, dataV_Q.size());
+        Quicksort<Data>(dataV_Q, 0, dataV_Q.size());
         clock_t end_quickSortData2 = clock();
 
         clock_t start_quickSortInt2 = clock();
-        Quicksort(intV_Q, 0, intV_Q.size());
+        Quicksort<int>(intV_Q, 0, intV_Q.size());
         clock_t end_quickSortInt2 = clock();
 
         //MergeSort
@@ -331,11 +314,11 @@ int main() {
         vector<int> IntTemp2(intV_M.size());
 
         clock_t start_mergeSortData2 = clock();
-        mergeSort(dataV_M,DataTemp,  0, dataV_M.size()-1);
+        mergeSort<Data>(dataV_M,DataTemp,  0, dataV_M.size()-1);
         clock_t end_mergeSortData2 = clock();
 
         clock_t start_mergeSortInt2 = clock();
-        mergeSort(intV_M, IntTemp, 0, intV_M.size()-1);
+        mergeSort<int>(intV_M, IntTemp, 0, intV_M.size()-1);
         clock_t end_mergeSortInt2 = clock();
 
 
@@ -354,7 +337,7 @@ int main() {
              << elapsed_mergeSortInt2 << endl;
 
 
-/*cout<<"bubbleSort"<<endl;
+cout<<"bubbleSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_B.at(j)<<" ";
     }
@@ -395,7 +378,7 @@ int main() {
         cout<<dataV_M.at(j)<<" ";
     }
     cout<<endl;
-*/
+
 
     inFile.close();
 
