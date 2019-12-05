@@ -24,13 +24,13 @@ bool Data::operator<=(const Data &rhs) {
 
 //overloaded output stream
 ostream &operator<<(ostream &os, const Data &d) {
-    return os<<d.license<<" "<<d.state<<" "<<d.plateType<<" "<<d.violation<<endl;
+    return os << d.state << " " << d.vehicleType << " " << d.vehicleMake << " " << d.violation << endl;
 }
 
 //constructor
-Data::Data(string l, string s, string p, int v) {
-    license=l;
+Data::Data(string s, string t, string m, int v) {
     state=s;
-    plateType=p;
+    vehicleType=t;
+    vehicleMake=m;
     violation=v;
 }

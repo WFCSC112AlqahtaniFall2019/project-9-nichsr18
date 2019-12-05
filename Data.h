@@ -10,14 +10,15 @@ using namespace std;
 class Data{
 public:
 
-    string license;
     string state;
-    string plateType;
+    string vehicleType;
+    string vehicleMake;
+    string violationTemp;
     int violation;
     friend ostream& operator<<(ostream& os, const Data& d);
     bool operator<(const Data &rhs);
     bool operator<=(const Data &rhs);
-    Data(string l= "", string s="",string p="", int v=0);
+    Data(string s= "", string t="", string m="", int v=0);
 
 };
 

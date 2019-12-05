@@ -18,8 +18,8 @@ void bubbleSort(vector <T>& arr, int size){
                 swap(arr[j], arr[j + 1]);
                 swapped=true;
             }    //if there wasn't any swap in the inner loop, stop
-             if(!swapped)
-                 break;
+        if(!swapped)
+            break;
     }
 }
 
@@ -29,14 +29,14 @@ template <typename T>
 void selectionSort(vector <T>& arr, int size) {
     int min;
     for (int i = 0; i < size - 1; ++i){
-    // Find index of smallest remaining element
-    min = i;
-    for (int j = i + 1; j < size; ++j) {
-        if (arr[j] < arr[min]) {
-            min = j;
+        // Find index of smallest remaining element
+        min = i;
+        for (int j = i + 1; j < size; ++j) {
+            if (arr[j] < arr[min]) {
+                min = j;
+            }
         }
-    }
-    swap(arr[i],arr[min]);
+        swap(arr[i],arr[min]);
     }
 }
 
@@ -110,112 +110,110 @@ void mergeSort(vector<T>& a, vector<T>& tmp, int left, int right) {
 
 template <typename T>
 int Partition(vector<T>& numbers, int i, int k) {
-   int l;
-   int h;
-   int midpoint;
-   T pivot;
-   T temp;
-   bool done;
+    int l;
+    int h;
+    int midpoint;
+    T pivot;
+    T temp;
+    bool done;
 
-   /* Pick middle element as pivot */
-   midpoint = i + (k - i) / 2;
-   pivot = numbers[midpoint];
+    /* Pick middle element as pivot */
+    midpoint = i + (k - i) / 2;
+    pivot = numbers[midpoint];
 
-   done = false;
-   l = i;
-   h = k;
+    done = false;
+    l = i;
+    h = k;
 
-   while (!done) {
+    while (!done) {
 
-      /* Increment l while numbers[l] < pivot */
-      while (numbers[l] < pivot) {
-         ++l;
-      }
+        /* Increment l while numbers[l] < pivot */
+        while (numbers[l] < pivot) {
+            ++l;
+        }
 
-      /* Decrement h while pivot < numbers[h] */
-      while (pivot < numbers[h]) {
-         --h;
-      }
+        /* Decrement h while pivot < numbers[h] */
+        while (pivot < numbers[h]) {
+            --h;
+        }
 
-      /* If there are zero or one elements remaining,
-       all numbers are partitioned. Return h */
-      if (l >= h) {
-         done = true;
-      }
-      else {
-         /* Swap numbers[l] and numbers[h],
-          update l and h */
-         temp = numbers[l];
-         numbers[l] = numbers[h];
-         numbers[h] = temp;
+        /* If there are zero or one elements remaining,
+         all numbers are partitioned. Return h */
+        if (l >= h) {
+            done = true;
+        }
+        else {
+            /* Swap numbers[l] and numbers[h],
+             update l and h */
+            temp = numbers[l];
+            numbers[l] = numbers[h];
+            numbers[h] = temp;
 
-         ++l;
-         --h;
-      }
-   }
+            ++l;
+            --h;
+        }
+    }
 
-   return h;
+    return h;
 }
 
 template <typename T>
 void Quicksort(vector<T>& numbers, int i, int k) {
-   int j;
+    int j;
 
-   /* Base case: If there are 1 or zero elements to sort,
-    partition is already sorted */
-   if (i >= k) {
-      return;
-   }
+    /* Base case: If there are 1 or zero elements to sort,
+     partition is already sorted */
+    if (i >= k) {
+        return;
+    }
 
-   /* Partition the data within the array. Value j returned
-    from partitioning is location of last element in low partition. */
-   j = Partition(numbers, i, k);
+    /* Partition the data within the array. Value j returned
+     from partitioning is location of last element in low partition. */
+    j = Partition(numbers, i, k);
 
-   /* Recursively sort low partition (i to j) and
-    high partition (j + 1 to k) */
-   Quicksort(numbers, i, j);
-   Quicksort(numbers, j + 1, k);
+    /* Recursively sort low partition (i to j) and
+     high partition (j + 1 to k) */
+    Quicksort(numbers, i, j);
+    Quicksort(numbers, j + 1, k);
 }
 
 int main() {
 
     ifstream inFile;
-    inFile.open("../NewData.csv");
+    inFile.open("../CleanedTrafficData.csv");
     if(!inFile.is_open()) {
         cout << "file does not exist";
         return 1;//indicates error
     }
-    for(int n=10;n<100;n=n+10) {
+
+    int n=14000;
         //creates Vector
         vector<Data> dataV(n);
 
         //cout << "Reading ../CleanedTrafficData.csv..." << endl;
         //while loop to read csv file while adding to linked lists
         int count = 0;
-        while (!inFile.eof()) {
-            if(count>=n){break;}
-            string license;
+        while (count < n) {
             string state;
-            string plateType;
+            string vehicleType;
+            string vehicleMake;
             string violationTemp;
             int violation;
             //takes in separate data members
-            getline(inFile, license, ',');
             getline(inFile, state, ',');
-            getline(inFile, plateType, ',');
+            getline(inFile, vehicleType, ',');
+            getline(inFile, vehicleMake, ',');
             getline(inFile, violationTemp);
 
             //changes string data into integer
             violation = stoi(violationTemp);
             //adds new data to stack, queue, and the sorted linked list
-            Data temp = Data(license, state, plateType, violation);
-
+            Data temp = Data(state, vehicleType, vehicleMake, violation);
             dataV.at(count) = temp;
             count++;
-            //cout << count << endl;
         }
 
-
+        //cout << count << endl;
 
 
         vector<Data> dataV_B = dataV;
@@ -227,9 +225,7 @@ int main() {
         vector<int> intV(n);
         for(int j=0;j<n;j++){
             intV.at(j)=rand()%100;
-
         }
-
 
         //cout << endl;
         //copy data sets
@@ -274,11 +270,11 @@ int main() {
         vector<int> IntTemp(intV_M.size());
 
         clock_t start_mergeSortData = clock();
-        mergeSort(dataV_M, DataTemp, 0, dataV_M.size() - 1);
+        mergeSort(dataV_M,DataTemp,  0, dataV_M.size()-1);
         clock_t end_mergeSortData = clock();
 
         clock_t start_mergeSortInt = clock();
-        mergeSort(intV_M, IntTemp, 0, intV_M.size() - 1);
+        mergeSort(intV_M, IntTemp ,0, intV_M.size()-1);
         clock_t end_mergeSortInt = clock();
 
 
@@ -335,11 +331,11 @@ int main() {
         vector<int> IntTemp2(intV_M.size());
 
         clock_t start_mergeSortData2 = clock();
-        mergeSort(dataV_M, DataTemp, 0, dataV_M.size() - 1);
+        mergeSort(dataV_M,DataTemp,  0, dataV_M.size()-1);
         clock_t end_mergeSortData2 = clock();
 
         clock_t start_mergeSortInt2 = clock();
-        mergeSort(intV_M, IntTemp, 0, intV_M.size() - 1);
+        mergeSort(intV_M, IntTemp, 0, intV_M.size()-1);
         clock_t end_mergeSortInt2 = clock();
 
 
@@ -358,56 +354,48 @@ int main() {
              << elapsed_mergeSortInt2 << endl;
 
 
-    cout<<"bubbleSort"<<endl;
+/*cout<<"bubbleSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_B.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"selection sort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_S.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"Quicksort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_S.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"mergeSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_M.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"Data"<<endl;
     cout<<"bubbleSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<dataV_B.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"selection sort"<<endl;
     for(int j=0;j<n;j++){
         cout<<dataV_S.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"Quicksort"<<endl;
     for(int j=0;j<n;j++){
         cout<<dataV_S.at(j)<<" ";
     }
     cout<<endl;
-
     cout<<"mergeSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<dataV_M.at(j)<<" ";
     }
     cout<<endl;
-    
-    }
+*/
 
     inFile.close();
 
@@ -417,5 +405,3 @@ int main() {
 
     return 0;
 }
-
-
