@@ -40,7 +40,7 @@ void selectionSort(vector <T>& arr, int size) {
     }
 }
 
-//MergeSort from Project 2
+//MergeSort from Project 2/3
 template <typename T>
 void mergeSortedLists(vector<T>& a, vector<T>& tmp, int leftPos, int rightPos, int rightEnd) {
     int leftEnd = rightPos - 1;
