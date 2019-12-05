@@ -180,20 +180,20 @@ void Quicksort(vector<T>& numbers, int i, int k) {
 int main() {
 
     ifstream inFile;
-    ofstream outFile;
-    inFile.open("../CleanedTrafficData.csv");
+    inFile.open("../NewData.csv");
     if(!inFile.is_open()) {
         cout << "file does not exist";
         return 1;//indicates error
     }
-    for(int n=1000;n<125000;n=n+1000) {
+    for(int n=10;n<100;n=n+10) {
         //creates Vector
         vector<Data> dataV(n);
 
         //cout << "Reading ../CleanedTrafficData.csv..." << endl;
         //while loop to read csv file while adding to linked lists
         int count = 0;
-        while (count < n) {
+        while (!inFile.eof()) {
+            if(count>=n){break;}
             string license;
             string state;
             string plateType;
@@ -209,11 +209,13 @@ int main() {
             violation = stoi(violationTemp);
             //adds new data to stack, queue, and the sorted linked list
             Data temp = Data(license, state, plateType, violation);
+
             dataV.at(count) = temp;
             count++;
+            //cout << count << endl;
         }
 
-        //cout << count << endl;
+
 
 
         vector<Data> dataV_B = dataV;
@@ -223,9 +225,13 @@ int main() {
 
         //makes random integer vector
         vector<int> intV(n);
+        for(int j=0;j<n;j++){
+            intV.at(j)=rand()%100;
+
+        }
 
 
-        cout << endl;
+        //cout << endl;
         //copy data sets
         vector<int> intV_B = intV;
         vector<int> intV_S = intV;
@@ -352,7 +358,7 @@ int main() {
              << elapsed_mergeSortInt2 << endl;
 
 
-/*cout<<"bubbleSort"<<endl;
+    cout<<"bubbleSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_B.at(j)<<" ";
     }
@@ -399,9 +405,10 @@ int main() {
     for(int j=0;j<n;j++){
         cout<<dataV_M.at(j)<<" ";
     }
-    cout<<endl;*/
-
+    cout<<endl;
+    
     }
+
     inFile.close();
 
 
