@@ -169,7 +169,7 @@ int main() {
         return 1;//indicates error
     }
 
-    int n=20;
+    int n=2000;
         //creates Vector
         vector<Data> dataV(n);
 
@@ -337,7 +337,7 @@ int main() {
              << elapsed_mergeSortInt2 << endl;
 
 
-cout<<"bubbleSort"<<endl;
+/*cout<<"bubbleSort"<<endl;
     for(int j=0;j<n;j++){
         cout<<intV_B.at(j)<<" ";
     }
@@ -378,7 +378,7 @@ cout<<"bubbleSort"<<endl;
         cout<<dataV_M.at(j)<<" ";
     }
     cout<<endl;
-
+*/
 
     inFile.close();
 
